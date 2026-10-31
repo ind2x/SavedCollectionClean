@@ -1,27 +1,19 @@
-"""Build only distributable extension files and the static guide. No credentials or logs."""
+"""Package the standalone extension with its license. Python standard library only."""
 import hashlib
 import json
 from pathlib import Path
-import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 EXTENSION = ROOT / "insta-saved-collection-clean-extension"
-OUTPUT = ROOT / "development/.hosting/dist"
-SITE = ROOT / "development/site"
+OUTPUT = ROOT / "development/releases"
 
 
 def main():
     manifest = json.loads((EXTENSION / "manifest.json").read_text())
     version = manifest["version"]
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    for name in ("index.html", "style.css", "site.js"):
-        shutil.copyfile(SITE / name, OUTPUT / name)
-    (OUTPUT / "assets").mkdir(exist_ok=True)
-    shutil.copyfile(EXTENSION / "icons/128.png", OUTPUT / "assets/icon.png")
-    downloads = OUTPUT / "downloads"
-    downloads.mkdir(exist_ok=True)
-    archive = downloads / ("insta-saved-collection-clean-extension-" + version + ".zip")
+    archive = OUTPUT / ("insta-saved-collection-clean-extension-" + version + ".zip")
     files = sorted(p for p in EXTENSION.rglob("*") if p.is_file())
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for path in files:
@@ -40,8 +32,8 @@ def main():
             info.external_attr = 0o644 << 16
             bundle.writestr(info, license_path.read_bytes())
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
-    (downloads / (archive.name + ".sha256")).write_text(digest + "  " + archive.name + "\n")
-    print(json.dumps({"version": version, "archive": str(archive), "sha256": digest, "site": str(OUTPUT)}))
+    (OUTPUT / (archive.name + ".sha256")).write_text(digest + "  " + archive.name + "\n")
+    print(json.dumps({"version": version, "archive": str(archive), "sha256": digest}))
 
 
 if __name__ == "__main__":
