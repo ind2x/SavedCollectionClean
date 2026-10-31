@@ -7,3 +7,6 @@
 .header{position:sticky;top:0;background:#fff;z-index:5}.installation{scroll-margin-top:64px}.privacy{scroll-margin-top:128px}
 @media(min-width:1151px){.brand{font-size:34px}.header nav{font-size:20px}.hero{grid-template-columns:minmax(0,1.35fr) minmax(380px,1fr)}.hero-copy h1{font-size:clamp(64px,5.2vw,82px);font-weight:900}.source{font-size:21px}.requirements{font-size:20px}.preview{font-size:24px}.preview figcaption{padding:20px 24px;font-size:20px}.preview-brand{padding:26px 24px;font-size:28px}.preview-account{padding:27px 25px}.preview-row{min-height:84px}.preview-action{padding:22px;font-size:21px;margin-bottom:28px}.commitments p{font-size:20px}.installation h2{font-size:50px;font-weight:800}.privacy h2{font-weight:800}}
 @media(max-width:760px){.steps li:first-child{display:grid;grid-template-columns:36px minmax(0,1fr)}.steps li:first-child .compact{grid-column:2;margin-left:0;justify-self:start}}
+
+.preview-brand{gap:12px;overflow-wrap:anywhere}.footer{flex-wrap:wrap}
+@media(max-width:760px){.header{height:auto;min-height:82px;flex-direction:column;align-items:flex-start;gap:12px;padding-block:20px}.preview-brand{font-size:18px}}

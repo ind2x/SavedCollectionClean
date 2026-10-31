@@ -10,7 +10,7 @@
 
 ---
 
-PC Chrome·Edge 확장 프로그램, 정적 설치 안내 사이트, 기존 Python CLI를 제공한다. 한국어 Instagram 웹 UI에서 사용자가 선택한 컬렉션의 게시글을 전체 저장 해제하고 빈 컬렉션을 삭제한다. AI 호출·백엔드·데이터베이스·공식 Instagram API·휴대폰 앱 제어·제한 우회는 범위 밖이다. MIT 라이선스 공개 프로젝트다.
+서비스 표시명은 `InstaSavedCollectionClean`, 프로젝트 폴더는 `insta-saved-collection-clean`이다. PC Chrome·Edge 확장 프로그램, 정적 설치 안내 사이트, 기존 Python CLI를 제공한다. 한국어 Instagram 웹 UI에서 사용자가 선택한 컬렉션의 게시글을 전체 저장 해제하고 빈 컬렉션을 삭제한다. AI 호출·백엔드·데이터베이스·공식 Instagram API·휴대폰 앱 제어·제한 우회는 범위 밖이다. MIT 라이선스 공개 프로젝트다.
 
 <br><br>
 
@@ -35,6 +35,6 @@ PC Chrome·Edge 확장 프로그램, 정적 설치 안내 사이트, 기존 Pyth
 
 ---
 
-사용자용 `savedpoststree-extension/`, `instagram_cleanup.py`, 주요 문서와 MIT `LICENSE`를 최상위에 유지한다. 사이트 원본·빌드 코드·의존성·도구·가상환경·캐시·로그는 `development/`에 둔다. 배포 ZIP에는 확장과 LICENSE만 넣는다. 최종 검증 후 자체 테스트·일회성 스크립트·테스트 캐시는 제거하고 실제 결과는 [TESTING.md](TESTING.md)에 남긴다. 실제 사용자 자료는 삭제하지 않는다.
+사용자용 `insta-saved-collection-clean-extension/`, `instagram_cleanup.py`, 주요 문서와 MIT `LICENSE`를 최상위에 유지한다. 사이트 원본·빌드 코드·의존성·도구·가상환경·캐시·로그는 `development/`에 둔다. 배포 ZIP에는 확장과 LICENSE만 넣는다. 최종 검증 후 자체 테스트·일회성 스크립트·테스트 캐시는 제거하고 실제 결과는 [TESTING.md](TESTING.md)에 남긴다. 실제 사용자 자료는 삭제하지 않는다.
 
 [README.md](README.md)는 사용자 안내, [DEVELOPMENT.md](DEVELOPMENT.md)는 구현·실행·배포 기준이다.

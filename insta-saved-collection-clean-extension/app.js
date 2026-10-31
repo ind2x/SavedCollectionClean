@@ -109,13 +109,13 @@ $('stop').addEventListener('click', () => {
 });
 $('export').addEventListener('click', () => {
   if (!events.length) return;
-  const summary = ['savedpoststree · 이번 작업 기록', '계정: ' + events[0].account];
+  const summary = ['InstaSavedCollectionClean · 이번 작업 기록', '계정: ' + events[0].account];
   const results = busy && runner ? [...runner.results.values()] : lastResults;
   for (const value of results) summary.push(value.name + ': ' + value.state);
   summary.push('', ...events.map((row) => new Date(row.time).toLocaleString('ko-KR') + ' ' + row.message + (row.post_id ? ' (게시글 ' + row.post_id + ')' : '')));
   const url = URL.createObjectURL(new Blob(['\uFEFF' + summary.join('\n') + '\n'], {type: 'text/plain;charset=utf-8'}));
   const anchor = document.createElement('a'); anchor.href = url;
-  anchor.download = 'savedpoststree-' + new Date().toISOString().slice(0, 10) + '.txt'; anchor.click();
+  anchor.download = 'insta-saved-collection-clean-' + new Date().toISOString().slice(0, 10) + '.txt'; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 window.addEventListener('beforeunload', (event) => { if (busy || loading) { event.preventDefault(); event.returnValue = ''; } });

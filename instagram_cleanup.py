@@ -1,4 +1,4 @@
-"""선택한 Instagram 컬렉션 전체 저장 해제 후 빈 컬렉션 삭제. AI 호출 없음."""
+"""InstaSavedCollectionClean: 선택한 Instagram 컬렉션 전체 저장 해제 후 빈 컬렉션 삭제. AI 호출 없음."""
 
 import sys
 from pathlib import Path
@@ -383,7 +383,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--account", required=True, help="본인의 Instagram 사용자 이름")
     parser.add_argument("--collection", action="append", default=[], help="대상 컬렉션 이름. 여러 번 지정 가능")
-    parser.add_argument("--profile", type=Path, default=Path.home() / ".local/share/savedpoststree/chromium")
+    parser.add_argument("--profile", type=Path, default=Path.home() / ".local/share/insta-saved-collection-clean/chromium")
     parser.add_argument(
         "--log", type=Path,
         default=Path(__file__).resolve().parent / "development/support/logs/cleanup-events.jsonl",

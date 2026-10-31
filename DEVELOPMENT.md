@@ -179,7 +179,7 @@ cd ../../..
 
 | 파일·구성요소 | 역할 |
 | --- | --- |
-| `savedpoststree-extension/background.js` | 아이콘 클릭과 정리 창 재사용 |
+| `insta-saved-collection-clean-extension/background.js` | 아이콘 클릭과 정리 창 재사용 |
 | `app.html`, `app.css`, `app.js` | 입력·선택·승인·중단·TXT 내려받기 |
 | `runner.js`의 `probePage` | Instagram DOM 판독·경계 검사·제한된 클릭 |
 | `runner.js`의 `InstagramRunner` | Chrome API 이동·대기·반복·결과 집계 |
@@ -206,9 +206,13 @@ Python 기본 JSONL 경로는 스크립트가 있는 프로젝트 기준이다. 
 python3 development/build_release.py
 ```
 
-확장 버전은 `savedpoststree-extension/manifest.json`에서 읽는다. 출력은 `development/.hosting/dist/`의 정적 사이트와 `downloads/savedpoststree-extension-0.1.0.zip`, 대응 `.sha256`이다. ZIP의 시간과 파일 순서를 고정해 동일 소스의 해시를 재현한다. 사이트 다운로드 링크는 현재 버전으로 명시돼 있으므로 버전을 바꾸면 두 HTML 링크도 함께 갱신한다.
+확장 버전은 `insta-saved-collection-clean-extension/manifest.json`에서 읽는다. 출력은 `development/.hosting/dist/`의 정적 사이트와 `downloads/insta-saved-collection-clean-extension-0.1.1.zip`, 대응 `.sha256`이다. ZIP의 시간과 파일 순서를 고정해 동일 소스의 해시를 재현한다. 사이트 다운로드 링크는 현재 버전으로 명시돼 있으므로 버전을 바꾸면 두 HTML 링크도 함께 갱신한다.
 
-공개 소스는 `https://github.com/ind2x/savedpoststree`, 라이선스는 MIT다. 확장 ZIP과 해시는 GitHub 베타 Release와 안내 사이트에서 제공한다. 인증·환경·실제 계정 로그는 포함하지 않는다. 배포 전에 `git diff --cached --name-only`와 ZIP 목록을 확인한다.
+공개 소스는 `https://github.com/ind2x/savedpoststree`, 라이선스는 MIT다. v0.1.1은 새 서비스명과 설치 폴더·다운로드 파일명이 반영된 베타다. 원격 저장소 이름은 사용자가 별도로 변경하므로 저장소 URL은 유지한다. 사이트도 기존 project ID와 공개 URL·canonical 주소를 유지하며 표시명과 배포 파일을 갱신한다. 인증·환경·실제 계정 로그는 공개하지 않는다. 배포 전에 `git diff --cached --name-only`와 ZIP 목록을 확인한다.
+
+2026-11-01에 로컬 원본 폴더를 `insta-saved-collection-clean`으로 바꾸고 `.git` 이력을 그대로 유지했다. 사용자 표시명은 `InstaSavedCollectionClean`, 설치 폴더·배포 파일명은 `insta-saved-collection-clean-extension`을 사용한다. 기존 단일 실행 코드 `instagram_cleanup.py`는 유지한다. 가상환경 진입 스크립트·활성화 스크립트·설정의 프로젝트 절대 경로를 새 위치에 맞춘다. 과거 실행 로그·요약·문서 보관본은 당시 기록 그대로 보존하므로 이전 이름이나 경로를 포함할 수 있다.
+
+Python의 새 기본 프로필은 `~/.local/share/insta-saved-collection-clean/chromium`이다. 기존 `~/.local/share/savedpoststree/chromium`은 이동·삭제하지 않았으며 `--profile`로 재사용할 수 있다. 사용자 범위의 기존 한글 글꼴 폴더도 실제 설치 위치를 유지한다. 기존 확장 설치는 폴더 이동 후 새 경로에서 다시 불러와야 한다.
 
 사이트는 Sites 정적 호스팅을 사용한다. 서비스별 식별자가 있는 `.openai/hosting.json`과 배포용 별도 Git 메타데이터는 무시된 `development/.hosting/`에 두고, 원본 사이트는 `development/site/`에서 관리한다. 배포 시 이 폴더의 기존 project ID를 재사용해 소스를 동기화·커밋·패키징하고 저장된 버전만 공개 배포한다. 소스 접근 자격 증명은 세션 메모리와 도구 stdin으로만 전달하며 파일·명령 인자·문서에 남기지 않는다. 공개 URL은 [README.md](README.md)를 따른다.
 

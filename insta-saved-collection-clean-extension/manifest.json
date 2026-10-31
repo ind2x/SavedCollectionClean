@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "savedpoststree",
-  "version": "0.1.0",
+  "name": "InstaSavedCollectionClean",
+  "version": "0.1.1",
   "description": "내 브라우저에서 선택한 Instagram 컬렉션의 저장을 해제하고 빈 컬렉션을 정리합니다.",
   "minimum_chrome_version": "120",
   "permissions": ["activeTab", "scripting"],
   "background": {"service_worker": "background.js"},
-  "action": {"default_title": "savedpoststree 열기", "default_icon": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"}},
+  "action": {"default_title": "InstaSavedCollectionClean 열기", "default_icon": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"}},
   "icons": {"16": "icons/16.png", "48": "icons/48.png", "128": "icons/128.png"},
   "content_security_policy": {"extension_pages": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"}
 }

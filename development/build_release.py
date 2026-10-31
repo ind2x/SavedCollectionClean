@@ -6,7 +6,7 @@ import shutil
 import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
-EXTENSION = ROOT / "savedpoststree-extension"
+EXTENSION = ROOT / "insta-saved-collection-clean-extension"
 OUTPUT = ROOT / "development/.hosting/dist"
 SITE = ROOT / "development/site"
 
@@ -21,7 +21,7 @@ def main():
     shutil.copyfile(EXTENSION / "icons/128.png", OUTPUT / "assets/icon.png")
     downloads = OUTPUT / "downloads"
     downloads.mkdir(exist_ok=True)
-    archive = downloads / ("savedpoststree-extension-" + version + ".zip")
+    archive = downloads / ("insta-saved-collection-clean-extension-" + version + ".zip")
     files = sorted(p for p in EXTENSION.rglob("*") if p.is_file())
     with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as bundle:
         for path in files:
@@ -29,7 +29,7 @@ def main():
                 continue
             if path.suffix not in {".json", ".js", ".css", ".html", ".png", ".svg", ".txt"}:
                 raise ValueError("Unexpected distributable file: " + str(path))
-            info = zipfile.ZipInfo("savedpoststree-extension/" + path.relative_to(EXTENSION).as_posix(), (2026, 11, 1, 0, 0, 0))
+            info = zipfile.ZipInfo("insta-saved-collection-clean-extension/" + path.relative_to(EXTENSION).as_posix(), (2026, 11, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = 0o644 << 16
             bundle.writestr(info, path.read_bytes())

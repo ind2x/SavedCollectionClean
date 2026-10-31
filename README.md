@@ -1,6 +1,6 @@
 ## 목차
 
-- [savedpoststree](#savedpoststree)
+- [InstaSavedCollectionClean](#instasavedcollectionclean)
 - [확장 프로그램 설치](#확장-프로그램-설치)
 - [컬렉션 정리](#컬렉션-정리)
 - [개인정보와 기록](#개인정보와-기록)
@@ -11,13 +11,15 @@
 
 <br><br>
 
-# savedpoststree
+# InstaSavedCollectionClean
 
 ---
 
 Instagram에 저장한 게시물을 선택한 컬렉션 단위로 정리합니다. PC Chrome·Edge 확장 프로그램이 내 브라우저에서 게시글을 **전체 저장 해제**하고, 비어 있는지 재확인한 컬렉션을 삭제합니다. 반복 작업은 일반 프로그램 코드로 실행되며 AI API나 토큰을 사용하지 않습니다.
 
-[설치 안내 사이트](https://savedpoststree.nsxz1359.chatgpt.site/) · [v0.1.0 베타 다운로드](https://github.com/ind2x/savedpoststree/releases/tag/v0.1.0)
+현재 버전은 **v0.1.1 베타**입니다. 이전 이름의 v0.1.0과 구분하며, 설치 폴더와 다운로드 파일 이름도 변경했습니다.
+
+[설치 안내 사이트](https://savedpoststree.nsxz1359.chatgpt.site/) · [v0.1.1 베타 다운로드](https://github.com/ind2x/savedpoststree/releases/tag/v0.1.1)
 
 **전체 저장 해제는 다른 컬렉션에 중복 저장한 같은 게시글에도 영향을 줍니다.** 기록은 복구 백업이 아닙니다. 원본 작성자의 게시물과 좋아요는 변경하지 않습니다.
 
@@ -29,13 +31,15 @@ Instagram에 저장한 게시물을 선택한 컬렉션 단위로 정리합니�
 
 ---
 
-1. 위 다운로드 페이지에서 `savedpoststree-extension-0.1.0.zip`을 받고 압축을 풉니다.
+1. 안내 사이트 또는 위 다운로드 페이지에서 `insta-saved-collection-clean-extension-0.1.1.zip`을 내려받고 압축을 풉니다. 소스를 받은 경우 최상위의 `insta-saved-collection-clean-extension` 폴더를 바로 사용할 수도 있습니다.
 2. Chrome은 주소창에 `chrome://extensions`, Edge는 `edge://extensions`를 입력합니다.
 3. **개발자 모드**를 켜고 **압축해제된 확장 프로그램을 로드합니다**를 누릅니다.
-4. 압축을 푼 폴더 안에서 `manifest.json`이 들어 있는 `savedpoststree-extension` 폴더를 선택합니다. ZIP 파일 자체를 선택하지 않습니다.
+4. 압축을 푼 폴더 안에서 `manifest.json`이 들어 있는 `insta-saved-collection-clean-extension` 폴더를 선택합니다. ZIP 파일 자체를 선택하지 않습니다.
 5. Instagram 웹사이트 `https://www.instagram.com/`에서 직접 로그인하고 표시 언어를 한국어로 설정합니다.
 
 Chrome·Edge 120 이상을 기준으로 작성했습니다. 실제 자동 검증 환경은 Chromium이며 Windows Chrome·Edge에서의 최종 사용성은 별도 확인이 필요합니다. 확장 폴더를 옮기거나 지우면 브라우저에서 다시 불러와야 합니다.
+
+이전 폴더로 설치한 확장은 새 폴더를 다시 불러와야 합니다. 작업 중인 창을 먼저 닫고 이전 설치본을 사용 중지해 중복 실행을 피합니다.
 
 <br><br>
 
@@ -103,7 +107,7 @@ flowchart LR
 기존 `instagram_cleanup.py`도 유지합니다. Python 3.10 이상, 화면이 있는 Linux/WSLg 환경에서 실행하며 **전용 Chromium에 따로 로그인**합니다. 확장 프로그램 설치에는 Python이 필요하지 않습니다.
 
 ```bash
-cd savedpoststree
+cd insta-saved-collection-clean
 python3 -m venv development/.venv
 development/.venv/bin/python -m pip install -r development/requirements.txt
 development/.venv/bin/python -m playwright install chromium
@@ -121,11 +125,13 @@ development/.venv/bin/python instagram_cleanup.py --account example_user \
 | --- | --- |
 | `--account` | 필수. 본인 Instagram 사용자 이름 |
 | `--collection` | 이름마다 반복 지정. 생략하면 터미널에서 입력 |
-| `--profile` | 전용 로그인 프로필 폴더. 기본 `~/.local/share/savedpoststree/chromium` |
+| `--profile` | 전용 로그인 프로필 폴더. 기본 `~/.local/share/insta-saved-collection-clean/chromium` |
 | `--log` | 상세 JSONL 위치. 기본 `development/support/logs/cleanup-events.jsonl` |
 | `--help` | Instagram에 접속하지 않고 도움말 표시 |
 
 Python 버전은 클릭 전 기록을 디스크에 남기고 `.summary.txt`에 마지막 실행 결과를 씁니다. JSONL에는 `collection`과 한글 `message`가 들어갑니다. 요약은 누적 완료 목록이 아닙니다. 기본 로그는 프로젝트 기준, 명시적인 상대 `--log`는 실행 폴더 기준입니다. Ctrl+C로 중단합니다. 전용 프로필에는 브라우저 인증 데이터가 남을 수 있으므로 공유하지 마세요.
+
+기존 로그인 프로필과 실제 실행 기록은 보존했습니다. 새 기본 프로필로 실행하면 다시 로그인해야 합니다. 이전 로컬 프로필을 재사용하려면 `--profile ~/.local/share/savedpoststree/chromium`을 지정합니다. 이 경로는 기존 설치와의 호환을 위해 안내하는 과거 이름입니다.
 
 Linux 라이브러리·pip·한글 글꼴 문제는 [개발 환경](DEVELOPMENT.md#개발-환경)의 현재 환경 복구 절차를 참고합니다.
 
@@ -136,8 +142,8 @@ Linux 라이브러리·pip·한글 글꼴 문제는 [개발 환경](DEVELOPMENT.
 ---
 
 ```text
-savedpoststree/
-├── savedpoststree-extension/   # 브라우저에서 직접 불러올 확장 폴더
+insta-saved-collection-clean/
+├── insta-saved-collection-clean-extension/   # 브라우저에서 직접 불러올 확장 폴더
 │   ├── manifest.json
 │   ├── app.html / app.js / app.css
 │   ├── runner.js / background.js
