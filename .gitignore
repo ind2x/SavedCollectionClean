@@ -1,0 +1,16 @@
+development/.venv/
+development/__pycache__/
+__pycache__/
+*.pyc
+.cleanup-profile/
+cleanup-*.jsonl
+cleanup-*.summary.txt
+development/support/logs/
+development/support/diagnostics/
+development/support/design/
+development/.tools/
+development/.hosting/
+development/.artifacts/
+.env
+.env.*
+!.env.example

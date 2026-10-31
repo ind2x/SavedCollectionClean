@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>savedpoststree · 컬렉션 정리</title>
+  <link rel="icon" href="icons/48.png"><link rel="stylesheet" href="app.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="app-header"><span class="brand">savedpoststree</span><span>내 브라우저에서만 실행</span></header>
+  <main>
+    <div class="workspace">
+      <section class="collection-pane" aria-labelledby="title">
+        <h1 id="title">저장한 컬렉션 정리</h1><p class="intro">Instagram에 로그인한 탭을 열어두세요.</p>
+        <form id="load-form">
+          <label for="account">사용자 이름</label>
+          <input id="account" name="account" autocomplete="off" spellcheck="false" maxlength="30" pattern="[A-Za-z0-9._]{1,30}" placeholder="Instagram 사용자 이름" required>
+          <button id="load" class="primary" type="submit">컬렉션 불러오기</button>
+        </form>
+        <p id="status" class="status" role="status" aria-live="polite">Instagram 탭에서 확장 아이콘을 눌러 시작하세요.</p>
+        <div class="list-title"><h2>정리할 컬렉션</h2><span id="count">0개</span></div>
+        <div id="collections" class="collection-list"><p class="empty">목록을 불러온 뒤 정리할 대상을 선택하세요.</p></div>
+      </section>
+      <aside class="confirmation" aria-labelledby="selected-title">
+        <h2 id="selected-title">선택한 대상</h2><ul id="selected"><li class="empty">선택한 컬렉션이 없습니다.</li></ul>
+        <p class="impact">다른 컬렉션의 같은 게시글도 저장 해제됩니다.</p>
+        <label class="ack"><input id="ack" type="checkbox"><span>영향을 이해했고 이 대상만 정리합니다.</span></label>
+        <label for="phrase">확인 문구</label><p id="expected-phrase" class="phrase-help">사용자 이름과 대상을 먼저 확인하세요.</p>
+        <input id="phrase" autocomplete="off" spellcheck="false" placeholder="위 확인 문구를 그대로 입력">
+        <button id="start" class="danger" type="button" disabled>저장 해제 · 컬렉션 삭제</button>
+        <p class="local-note">작업 기록은 이 창 안에만 남습니다. 창을 닫기 전 필요한 기록을 내려받으세요.</p>
+      </aside>
+    </div>
+    <section class="journal" aria-labelledby="journal-title">
+      <div class="journal-title"><h2 id="journal-title">이번 작업 기록</h2><div class="actions"><button id="export" class="secondary" type="button" disabled>기록 내려받기</button><button id="stop" class="secondary" type="button" disabled>중단</button></div></div>
+      <p id="progress" class="progress" aria-live="polite"></p>
+      <ol id="events" class="event-list" aria-live="polite"><li class="empty">작업을 시작하면 진행 상황이 여기에 표시됩니다.</li></ol>
+    </section>
+  </main>
+</body>
+</html>
