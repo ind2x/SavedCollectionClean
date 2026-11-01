@@ -45,9 +45,11 @@ function addEvent(row) {
   $('events').scrollTop = $('events').scrollHeight; $('export').disabled = false;
 }
 function renderCollections() {
-  $('collections').replaceChildren(); $('count').textContent = collections.length + '개';
+  $('collections').replaceChildren(); $('count').textContent = loadedAccount ? collections.length + '개' : '미조회';
   if (!collections.length) {
-    const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = '현재 계정에 확인할 수 있는 컬렉션이 없습니다.'; $('collections').append(empty);
+    const empty = document.createElement('p'); empty.className = 'empty';
+    empty.textContent = loadedAccount ? '현재 계정에 확인할 수 있는 컬렉션이 없습니다.' : '컬렉션 목록을 다시 불러오세요.';
+    $('collections').append(empty);
   }
   const nameCounts = new Map();
   for (const item of collections) nameCounts.set(item.name, (nameCounts.get(item.name) || 0) + 1);
@@ -89,18 +91,36 @@ $('ack').addEventListener('change', () => updateConfirmation());
 $('phrase').addEventListener('input', () => updateConfirmation());
 $('start').addEventListener('click', async () => {
   updateConfirmation(); if ($('start').disabled) return;
-  try { await ensureSingleWindow(); } catch (error) { status(error.message, true); return; }
+  const approvedAccount = loadedAccount;
   const targets = selected().map((item) => ({...item}));
   events = []; lastResults = []; $('events').replaceChildren(); $('export').disabled = true;
-  runner = new InstagramRunner(targetTab, loadedAccount, addEvent, (count) => { $('progress').textContent = '이번 실행에서 고유 게시글 ' + count + '건을 확인했습니다.'; });
-  setBusy(true); status('정리 중입니다. Instagram 탭과 이 창을 열어두세요.');
+  const activeRunner = new InstagramRunner(targetTab, approvedAccount, addEvent, (count) => { $('progress').textContent = '이번 실행에서 고유 게시글 ' + count + '건을 확인했습니다.'; });
+  runner = activeRunner;
+  setBusy(true); status('실행 준비 중입니다. Instagram 탭과 이 창을 열어두세요.');
   try {
-    const result = await runner.run(targets);
-    lastResults = [...runner.results.values()];
+    await ensureSingleWindow();
+    activeRunner.check();
+    const currentTargets = selected();
+    const approvalUnchanged = loadedAccount === approvedAccount
+      && $('account').value.trim().toLowerCase() === approvedAccount
+      && $('ack').checked
+      && $('phrase').value.trim() === approvedAccount + ' 저장 해제 및 컬렉션 삭제'
+      && currentTargets.length === targets.length
+      && currentTargets.every((item, index) => item.id === targets[index].id && item.name === targets[index].name && item.url === targets[index].url);
+    if (!approvalUnchanged) {
+      status('계정 또는 선택·확인 상태가 바뀌었습니다. 대상을 다시 확인하세요.', true);
+      return;
+    }
+    status('정리 중입니다. Instagram 탭과 이 창을 열어두세요.');
+    const result = await activeRunner.run(targets);
+    lastResults = [...activeRunner.results.values()];
     status(result.message, result.state === 'failed');
     $('progress').textContent = lastResults.map((item) => item.name + ': ' + item.state).join(' / ');
     collections = []; loadedAccount = ''; renderCollections();
-  } catch (error) { status('작업이 중단됐습니다: ' + error.message, true); }
+  } catch (error) {
+    if (activeRunner.stopped) activeRunner.emit('interrupted', null, null, error.message);
+    status('작업이 중단됐습니다: ' + error.message, !activeRunner.stopped);
+  }
   finally { setBusy(false); }
 });
 $('stop').addEventListener('click', () => {

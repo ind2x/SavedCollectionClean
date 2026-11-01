@@ -157,6 +157,7 @@ export class InstagramRunner {
     let tab;
     try { tab = await chrome.tabs.get(this.tabId); }
     catch { throw new Error('작업할 Instagram 탭이 닫혔습니다. 탭을 다시 열고 확장 아이콘을 눌러주세요.'); }
+    this.check();
     if (!tab.url || new URL(tab.url).origin !== ORIGIN) throw new Error('Instagram 탭에서 확장 아이콘을 눌러 실행하세요.');
     return tab;
   }
@@ -165,12 +166,14 @@ export class InstagramRunner {
     const url = new URL(value);
     if (url.origin !== ORIGIN || url.username || url.password) throw new Error('허용되지 않은 주소입니다.');
     const tab = await this.tab();
+    this.check();
     if (reload || tab.url === url.href) await chrome.tabs.reload(this.tabId);
     else await chrome.tabs.update(this.tabId, {url: url.href});
     await sleep(350);
   }
   async probe(request) {
     await this.tab();
+    this.check();
     let results;
     try { results = await chrome.scripting.executeScript({target: {tabId: this.tabId}, func: probePage, args: [{account: this.account, ...request}]}); }
     catch (error) {
