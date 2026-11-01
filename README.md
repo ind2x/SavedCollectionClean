@@ -15,11 +15,13 @@
 
 PC Chrome·Edge에서 Instagram에 저장한 게시물을 컬렉션 단위로 정리하는 **독립 실행 확장 프로그램**입니다. 선택한 컬렉션의 게시글을 전체 저장 해제하고, 빈 상태를 재확인한 컬렉션을 삭제합니다. 안내 사이트·웹서버·Python 설치 없이 브라우저에서 실행합니다. AI API나 토큰을 사용하지 않습니다.
 
-[v0.1.3 베타 다운로드](https://github.com/ind2x/savedpoststree/releases/tag/v0.1.3) · [소스와 문의](https://github.com/ind2x/savedpoststree)
+[설치 ZIP 내려받기](https://github.com/ind2x/savedpoststree/releases/download/v0.1.3/insta-saved-collection-clean-extension-0.1.3.zip) · [최신 Release](https://github.com/ind2x/savedpoststree/releases/tag/v0.1.3) · [문의](https://github.com/ind2x/savedpoststree/issues)
 
 **전체 저장 해제는 다른 컬렉션에 중복 저장한 같은 게시글에도 영향을 줍니다.** 원본 작성자의 게시물이나 좋아요는 변경하지 않습니다. 기록은 원상 복구 백업이 아닙니다.
 
-현재는 한국어 Instagram 웹 화면을 대상으로 한 베타입니다. 모의 화면에서 동작을 검증했으며, 새 확장의 실제 Instagram 삭제 동작과 Windows Chrome·Edge 실기기 최종 사용성은 아직 검증하지 않았습니다. 휴대폰 Instagram 앱과 스토어 설치는 지원하지 않습니다.
+현재 배포본은 **v0.1.3 베타**이며 Chrome·Edge의 개발자 모드로 직접 설치하는 브라우저 확장 프로그램입니다. Chrome 웹 스토어·Edge 추가 기능 스토어에는 아직 등록하지 않았습니다. 한국어 Instagram 웹 화면을 대상으로 하며 휴대폰 Instagram 앱은 지원하지 않습니다.
+
+승인·중단·목록 표시 회귀 검사 12개를 통과했습니다. 모의 API를 연결한 Windows Chrome 미리보기에서 화면과 선택 동작도 확인했지만, 실제 Instagram 계정의 저장 해제·컬렉션 삭제와 Chrome·Edge 실사용 전체를 검증한 것은 아닙니다.
 
 <br><br>
 
@@ -27,7 +29,7 @@ PC Chrome·Edge에서 Instagram에 저장한 게시물을 컬렉션 단위로 �
 
 ---
 
-1. GitHub 배포 페이지에서 `insta-saved-collection-clean-extension-0.1.3.zip`을 내려받아 압축을 풉니다.
+1. 위 **설치 ZIP 내려받기**를 누르거나 Release의 **Assets**에서 `insta-saved-collection-clean-extension-0.1.3.zip`을 받습니다. 자동 제공되는 `Source code`는 전체 개발 소스이므로 설치용 ZIP과 구분합니다. 받은 ZIP의 압축을 풉니다.
 2. Chrome은 주소창에 `chrome://extensions`, Edge는 `edge://extensions`를 입력합니다.
 3. **개발자 모드**를 켜고 **압축해제된 확장 프로그램을 로드합니다**를 누릅니다.
 4. 압축을 푼 폴더 안에서 `manifest.json`이 있는 `insta-saved-collection-clean-extension` 폴더를 선택합니다. ZIP 자체를 선택하지 않습니다.
@@ -107,9 +109,13 @@ insta-saved-collection-clean/
 ├── development/
 │   ├── build_release.py                    # 표준 Python만 쓰는 ZIP 생성 도구
 │   ├── releases/                           # 로컬 생성, Git 제외
-│   └── support/                            # 기존 개인 기록, Git 제외
+│   └── support/                            # 비공개 로컬 자료, Git 제외
+│       ├── diagnostics/fix-v0.1.3/          # 최신 수정 전·후 검증 출력
+│       └── archive/                       # 과거 CLI·사이트·문서 기록
 └── .gitignore
 ```
+
+GitHub의 현재 소스와 Release는 최신 v0.1.3 기준으로 관리합니다. 과거 배포 ZIP·태그는 정리하며, 개인 기록과 검증 원본은 GitHub와 설치 ZIP에 넣지 않습니다.
 
 사용자에게 필요한 것은 확장 폴더와 브라우저뿐입니다. Python은 개발자가 배포 ZIP을 만들 때만 선택적으로 사용하며 제품 실행에 필요하지 않습니다. 기존 Python CLI와 웹사이트·호스팅·프로젝트 가상환경은 제거했습니다.
 

@@ -5,7 +5,7 @@
 - [파일과 데이터](#파일과-데이터)
 - [개발과 패키징](#개발과-패키징)
 - [오류와 제약](#오류와-제약)
-- [제거한 구성과 보존 자료](#제거한-구성과-보존-자료)
+- [로컬 자료와 배포 관리](#로컬-자료와-배포-관리)
 
 <br><br>
 
@@ -58,7 +58,8 @@ flowchart LR
 | `icons/` | 로컬 아이콘과 벡터 원본 |
 | `development/build_release.py` | 확장 ZIP과 SHA-256 생성 |
 | `development/releases/` | 무시된 로컬 배포 생성물 |
-| `development/support/` | 공개 제외한 기존 실제 실행 기록·진단 자료 |
+| `development/support/diagnostics/fix-v0.1.3/` | 최신 회귀 검사·패키지·미리보기 원본 출력, Git 제외 |
+| `development/support/archive/` | 과거 CLI·사이트·문서·진단 기록, Git 제외 |
 
 이벤트는 `time`, `account`, `event`, `message`와 필요시 `collection`, `collection_id`, `url`, `post_id`, `reason`을 담는다. `pending`은 클릭 전, `unknown`은 미확정, `deleted_verified`는 ID 부재까지 확인한 상태다. 고유 게시글 수는 실행 내 shortcode로 중복 제거하고 `unsaved`를 우선한다. 기록은 복구 백업이나 다음 실행의 상태 복원 자료가 아니다.
 
@@ -78,7 +79,7 @@ python3 development/build_release.py
 
 버전은 manifest에서 읽고 `development/releases/insta-saved-collection-clean-extension-0.1.3.zip`과 `.sha256`을 만든다. 파일 순서와 ZIP 시간을 고정해 같은 소스의 해시를 재현한다. ZIP 안에는 `insta-saved-collection-clean-extension/`과 LICENSE만 넣으며 로그·인증·도구·문서는 포함하지 않는다. 스토어 제출 전용 ZIP이나 스토어 자동 배포는 구현하지 않았다.
 
-현재 배포 채널은 GitHub `ind2x/savedpoststree`의 Release다. 저장소 이름은 사용자가 별도로 변경한다. 배포 전 ZIP 목록·manifest·원본 일치·개인 자료 제외와 Git 변경 목록을 확인한다. 필요한 검증은 일회성 외부 환경에서 수행하고 최종 프로젝트에는 테스트 소스·검증용 가상환경·Node 도구를 남기지 않는다.
+현재 배포 채널은 GitHub `ind2x/savedpoststree`의 Release다. 저장소 이름은 사용자가 별도로 변경한다. 기존 Release·버전 태그를 정리하고 최신 v0.1.3 하나만 재게시한다. 태그는 정리한 현재 소스 커밋을 가리켜 자동 생성 Source code와 문서도 최신 상태가 되게 한다. 배포 전 ZIP 목록·manifest·원본 일치·개인 자료 제외와 Git 변경 목록을 확인한다. 필요한 검증은 일회성 외부 환경에서 수행하고 최종 프로젝트에는 테스트 소스·검증용 가상환경·Node 도구를 남기지 않는다.
 
 <br><br>
 
@@ -92,12 +93,14 @@ python3 development/build_release.py
 
 <br><br>
 
-## 제거한 구성과 보존 자료
+## 로컬 자료와 배포 관리
 
 ---
 
-v0.1.2에서 안내 사이트·호스팅 체크아웃·배포 아카이브·사이트 시안, 기존 `instagram_cleanup.py`, Playwright 의존성 목록·가상환경·프로젝트 Node 도구·캐시를 제거했다. 확장 JS·HTML·CSS와 정리 로직은 그대로다. 이전 코드는 Git 이력에 있으며 현재 실행 경로로 안내하지 않는다.
+제품은 확장 폴더와 주요 문서, ZIP 생성 도구만으로 구성한다. Python CLI·정적 사이트·호스팅 체크아웃·프로젝트 가상환경·Node 도구·자체 테스트 소스·캐시는 현재 구조에 없다. 임시 확인용 모의 화면은 제품 밖에서 실행하며 확장이나 배포 파일에 포함하지 않는다.
 
-기존 배포 사이트는 공개 접근을 제거하고 소유자만 허용했다. 연결된 Sites 도구에는 영구 삭제 기능이 없어 원격 프로젝트·배포 이력의 완전 삭제는 미실시다. 관리 화면에서의 완전 삭제에 필요한 식별자와 상태는 무시된 로컬 기록에 보존했다. 이것은 확장의 실행 의존성이 아니다.
+최신 회귀 검사 원본은 `development/support/diagnostics/fix-v0.1.3/`에 둔다. 과거 CLI 로그·진단 화면은 `archive/legacy-cli/`, 이전 문서는 `archive/document-history-20261101/`, 폐기 사이트 기록은 `archive/site/`, 이전 모의 화면 증거는 `archive/v0.1.2/`에 구분했다. 이동 전후 파일 SHA-256이 같은지 확인하고 이동 목록을 비공개 `archive/relocation-20261101.json`에 남긴다. 과거 원문 안의 이름·경로·실행 ID는 역사적 기록이므로 다시 쓰지 않는다.
 
-실제 계정 로그·개인 진단 화면·로그인 프로필은 테스트 산출물로 취급하지 않았다. 프로젝트 내부의 개인 자료는 `development/support/`에, 기존 로그인 프로필과 사용자 범위 글꼴은 기존 사용자 홈에 보존한다. 과거 원문은 당시 이름·경로를 포함할 수 있으며 Git과 ZIP에서 제외한다.
+실제 로그인 프로필과 사용자 범위 글꼴은 프로젝트 밖의 기존 사용자 홈에 보존한다. 폐기 사이트의 원격 영구 삭제는 이전 도구의 미지원으로 완료되지 않았으며, 로컬 사이트 파일과 공개 접근은 이미 제거했다. 이 자료들은 현재 제품의 실행 의존성이 아니다.
+
+로컬 배포 폴더에는 최신 v0.1.3 ZIP·해시만 남긴다. GitHub에서는 현재 소스 브랜치를 갱신하고 기존 Release·태그를 내려 최신본 하나로 교체한다. 저장소 자체를 삭제하거나 원본 Git 커밋 이력을 강제로 재작성하지 않는다. 배포 ZIP 해시는 확장 파일과 LICENSE 내용으로 정해지므로 문서·비공개 자료 정리만으로는 바뀌지 않는다.
